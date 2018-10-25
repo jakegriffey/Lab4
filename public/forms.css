@@ -1,0 +1,62 @@
+@font-face {
+    font-family: WithoutRain;
+    src: url("./AYearWithoutRain.ttf")
+}
+
+@font-face {
+    font-family: ThroughRaindrops;
+    src: url("./BlessingsthroughRaindrops.ttf");
+}
+
+.greenbackground {
+    background-color: #1abc9c;
+    color: #ffffff;
+    padding-top: 50px;
+    padding-bottom:50px;
+}
+
+.orangebackground {
+    background-color: #f2c73a;
+    color: white;
+    padding-top: 50px;
+    padding-bottom:50px;
+}
+
+.bluebackground {
+    background-color: #36c6d1;
+    color: #ffffff;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.beachbackground {
+    background-image: url("./beach.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #1abc9c;
+    background-size: cover;
+    /*filter: blur(4px);
+    -webkit-filter: blur(4px); */
+}
+
+.main-header {
+    padding-bottom: 75px;
+    padding-top: 75px;
+    font-size: 132px;
+    color: black;
+    font-family: WithoutRain;
+}
+
+.subheader {
+    font-size: 32px;
+    font-family: WithoutRain;
+}
+
+.sub-text {
+    font-family: ThroughRaindrops;
+    font-size: 24px;
+}
+
+.black-text {
+    color: black;
+}
