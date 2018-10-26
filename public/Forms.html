@@ -1,17 +1,18 @@
 <html>
-    <head>
-        <title>City Weather</title>
-        <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
-         <meta charset="utf-8">
-         <meta name="viewport" content="width=device-width, initial-scale=1">
-         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-         <link rel="stylesheet" href="./forms.css" type="text/css" />
-         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $( "#cityField" ).keyup(function() {
-                    var url = "getcity?q=" + $("#cityField").val();
-                    $.getJSON(url, function(data) {
+
+<head>
+    <title>City Weather</title>
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./forms.css" type="text/css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#cityField").keyup(function() {
+                var url = "getcity?q=" + $("#cityField").val();
+                $.getJSON(url, function(data) {
                         var everything;
                         everything = "<ul class = \"list-unstyled\">";
                         $.each(data, function(i, item) {
@@ -20,106 +21,118 @@
                         everything += "<ul>";
                         $("#txtHint").html(everything);
                     })
-                    .done(function() {console.log('getJSON request succeeded!'); })
+                    .done(function() { console.log('getJSON request succeeded!'); })
                     .fail(function(jqXHR, textStatus, errorThrown) {
-                        console.log('getJSON request failed! ' + textStatus); 
-                        console.log("incoming "+jqXHR.responseText);
+                        console.log('getJSON request failed! ' + textStatus);
+                        console.log("incoming " + jqXHR.responseText);
                     })
-                    .always(function() { console.log('getJSON request ended!');
-                        
+                    .always(function() {
+                        console.log('getJSON request ended!');
+
                     });
-                });
-                
-                $("#searchButton").click( function(e) {
-                    let value = $("#stackoverflowField").val();
-                    e.preventDefault()
-                    
-                    var myURL = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=";
-                    myURL += value + "&site=stackoverflow";
-                    
-                    $.ajax({
-                        url: myURL,
-                        dataType: "json",
-                        success: function(data) {
-                            //data[0][link] or [title]
-                            let items = data["items"];
-                            let everything = "<ul>";
-                            $.each(items, function(i, item) {
-                                everything += "<li class = \"sub-text\">" + "<a href = \"" + items[i].link + "\">" + items[i].title + "</a></li>";
-                            });
-                            everything += "</ul>";
-                            $("#search").html(everything);
-                        }
-                    });
-                });
-                
-                $("#weatherButton").click(function(e) {
-                    let value = $("#cityField").val();
-                    $("#displayCity").text(value);
-                    e.preventDefault()
-                    
-                    let myURL = "https://api.openweathermap.org/data/2.5/weather?units=imperial&appid=490d5594e67a318f4caf74e528fb9295&q=";
-                    myURL += value;
-                    $.ajax({
-                        url: myURL,
-                        dataType: "json",
-                        success: function(data) {
-                            let location = data["name"];
-                            let weather = data["weather"][0]["main"];
-                            let temp = data["main"]["temp"];
-                            let weatherIcon = data["weather"][0]["icon"];
-                            let humidity = data["main"]["humidity"];
-                            let minTemp = data["main"]["temp_min"];
-                            let maxTemp = data["main"]["temp_max"];
-                            let windSpeed = data["wind"]["speed"];
-                            var weatherData = "<img src = \"http://openweathermap.org/img/w/" + weatherIcon + ".png\"/>";
-                            weatherData += "<ul class = \"list-unstyled\">"
-                            weatherData += "<li class = \"sub-text\">Location: " + location;
-                            weatherData += "<li class = \"sub-text\">Weather: " + weather + " (" + temp + "&#8457;)";
-                            weatherData += "<li class = \"sub-text\">Low: " + minTemp + "&#8457; | High: " + maxTemp + "&#8457;";
-                            weatherData += "<li class = \"sub-text\">Humidity: " + humidity + "%";
-                            weatherData += "<li class = \"sub-text\">Wind: " + windSpeed + " mph";
-                            weatherData += "</ul>"
-                            $("#weather").html(weatherData);
-                        }
-                    });
-                });
-                
             });
-        </script>
-    </head>
-    <body>
-        <div class = "container-fluid text-center beachbackground">
-               <h1 class = "main-header">Weather</h1> 
-        </div>
-        <div class = "container-fluid text-center greenbackground">
-            <h2 class = "subheader">Enter the name of a Utah city</h2>
+
+            $("#searchButton").click(function(e) {
+                let value = $("#stackoverflowField").val();
+                e.preventDefault()
+
+                var myURL = "definition?q=";
+                myURL += value;
+
+                $.ajax({
+                    url: myURL,
+                    dataType: "json",
+                    success: function(data) {
+                        //data[0][link] or [title]
+
+                    
+                        let everything = "<ol>";
+                        $.each(data, function(i, item) {
+                            console.log(item)
+                            let type = item["type"];
+                            let def = item["defenition"];
+                            let example = item["example"];
+                            everything += "<li class = \"sub-text\"> (" + type + ") - " + def;
+                            if(example != null) {
+                                 everything += "<br><h3 class = \"sub-sub-text\">Example: " + example;
+                            }
+                            everything += "</li>";
+                        });
+                        everything += "</ol>";
+                        $("#search").html(everything);
+                    }
+                });
+            });
+
+            $("#weatherButton").click(function(e) {
+                let value = $("#cityField").val();
+                $("#displayCity").text(value);
+                e.preventDefault()
+
+                let myURL = "https://api.openweathermap.org/data/2.5/weather?units=imperial&appid=490d5594e67a318f4caf74e528fb9295&q=";
+                myURL += value;
+                $.ajax({
+                    url: myURL,
+                    dataType: "json",
+                    success: function(data) {
+                        let location = data["name"];
+                        let weather = data["weather"][0]["main"];
+                        let temp = data["main"]["temp"];
+                        let weatherIcon = data["weather"][0]["icon"];
+                        let humidity = data["main"]["humidity"];
+                        let minTemp = data["main"]["temp_min"];
+                        let maxTemp = data["main"]["temp_max"];
+                        let windSpeed = data["wind"]["speed"];
+                        var weatherData = "<img src = \"http://openweathermap.org/img/w/" + weatherIcon + ".png\"/>";
+                        weatherData += "<ul class = \"list-unstyled\">"
+                        weatherData += "<li class = \"sub-text\">Location: " + location;
+                        weatherData += "<li class = \"sub-text\">Weather: " + weather + " (" + temp + "&#8457;)";
+                        weatherData += "<li class = \"sub-text\">Low: " + minTemp + "&#8457; | High: " + maxTemp + "&#8457;";
+                        weatherData += "<li class = \"sub-text\">Humidity: " + humidity + "%";
+                        weatherData += "<li class = \"sub-text\">Wind: " + windSpeed + " mph";
+                        weatherData += "</ul>"
+                        $("#weather").html(weatherData);
+                    }
+                });
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid text-center beachbackground">
+        <h1 class="main-header">Weather</h1>
+    </div>
+    <div class="container-fluid text-center greenbackground">
+        <h2 class="subheader">Enter the name of a Utah city</h2>
+        <br>
+        <form autocomplete="off">
+            <input type="text" id="cityField" value="" class="black-text">
+            <input id="weatherButton" type="submit" value="Submit" class="black-text">
+            <span id="txtHint"></span>
             <br>
-            <form autocomplete = "off">
-                <input type="text" id="cityField" value="" class = "black-text">
-                <input id="weatherButton" type="submit" value="Submit" class = "black-text">
-                <span id="txtHint"></span>
-                <br>
-                <br>
-                <p class = "sub-text">City</p>
-                <textarea id="displayCity" class = "black-text">No City</textarea>
-            </form>
-        </div>
-        <div class = "container-fluid text-center bluebackground">
-            <p class = "sub-text">Current Weather</p>
-            <div id="weather">No weather</div>
-        </div>
-        
-        <div class = "container-fluid text-center orangebackground">
-            <h2 class = "subheader">Search Stackoverflow</h2>
             <br>
-            <form autocomplete = "off">
-                <input type = "text" id = "stackoverflowField" value = "" class = "black-text">
-                <input id = "searchButton" type= "submit" value = "Search" class = "black-text"> 
-            </form>
-            <div id = "search" class = "text-left"></div>
-            
-        </div>
-        
-    </body>
+            <p class="sub-text">City</p>
+            <textarea id="displayCity" class="black-text">No City</textarea>
+        </form>
+    </div>
+    <div class="container-fluid text-center bluebackground">
+        <p class="sub-text">Current Weather</p>
+        <div id="weather">No weather</div>
+    </div>
+
+    <div class="container-fluid text-center orangebackground">
+        <h2 class="subheader">Search Owlbot For Definitions</h2>
+        <br>
+        <form autocomplete="off">
+            <input type="text" id="stackoverflowField" value="" class="black-text">
+            <input id="searchButton" type="submit" value="Search" class="black-text">
+        </form>
+        <div id="search" class="text-left"></div>
+
+    </div>
+
+</body>
+
 </html>

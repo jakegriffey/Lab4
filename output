@@ -1,0 +1,9 @@
+nohup: ignoring input
+In root
+[0mGET / [36m304 [0m12.776 ms - -[0m
+[0mGET /forms.css [36m304 [0m1.898 ms - -[0m
+[0mGET /beach.jpg [36m304 [0m0.920 ms - -[0m
+[0mGET /AYearWithoutRain.ttf [36m304 [0m0.778 ms - -[0m
+[0mGET /BlessingsthroughRaindrops.ttf [36m304 [0m0.284 ms - -[0m
+In definition
+[0mGET /definition?q=test [32m200 [0m220.155 ms - -[0m
